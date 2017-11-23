@@ -1,0 +1,13 @@
+FROM alpine:edge
+
+ENV REFRESHED_AT=2017-11-23
+
+RUN apk add --update \
+  erlang=20.1.4-r2 \
+  elixir=1.5.2-r0 \
+  erlang-crypto \
+  erlang-parsetools \
+  erlang-syntax-tools \
+  erlang-runtime-tools \
+  git \
+  make
