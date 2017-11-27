@@ -1,9 +1,9 @@
 FROM alpine:edge
 
-ENV REFRESHED_AT=2017-11-23
+ENV REFRESHED_AT=2017-11-27
 
 RUN apk add --update \
-  erlang=20.1.4-r2 \
+  erlang=20.1.6-r2 \
   elixir=1.5.2-r0 \
   erlang-crypto \
   erlang-parsetools \
