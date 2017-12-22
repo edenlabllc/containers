@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.7
 
 ENV REFRESHED_AT=2017-11-28
 
