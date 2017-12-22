@@ -1,6 +1,6 @@
 FROM alpine:3.7
 
-ENV REFRESHED_AT=2017-11-28
+ENV REFRESHED_AT=2017-12-22
 
 RUN apk add --update \
   erlang=20.1.7-r2 \
