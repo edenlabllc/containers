@@ -21,7 +21,7 @@ http {
   log_format compression '$remote_addr - [$time_local] '
                          '"$request" $status $bytes_sent $http_user_agent '
                          '"$http_referer" '
-                         'Request headers: [{Authorization: $http_authorization}, {Content-Type: $http_content_type}, {Api-Key: $http_api_key}] '
+                         'Request headers: [{Authorization: $http_authorization}, {Content-Type: $http_content_type}, {Api-Key: $http_api_key}, {Accept-Encoding: $http_accept_encoding}] '
                          'Response headers: [{Content-Type: $upstream_http_content_type}, {Request-Id: $upstream_http_x_request_id}]';
 
   client_max_body_size 0;
