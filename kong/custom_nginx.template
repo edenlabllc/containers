@@ -21,6 +21,7 @@ http {
   log_format compression '$remote_addr - [$time_local] '
                          '"$request" $status $bytes_sent $http_user_agent '
                          '"$http_referer" '
+                         'Consumer: $upstream_x_consumer_id, Metadata: $upstream_x_consumer_metadata '
                          'Request headers: [{Authorization: [REDACTED]}, {Content-Type: $http_content_type}, {Api-Key: [REDACTED]}, {Accept-Encoding: $http_accept_encoding}] '
                          'Response headers: [{Content-Type: $upstream_http_content_type}, {Request-Id: $upstream_http_x_request_id}]';
 
@@ -110,6 +111,8 @@ http {
       set_real_ip_from   ::/0;
 
       location / {
+          set $upstream_x_consumer_id      '';
+          set $upstream_x_consumer_metadata '';
           set $upstream_host               '';
           set $upstream_upgrade            '';
           set $upstream_connection         '';
