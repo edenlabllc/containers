@@ -1,0 +1,47 @@
+id: 07CB9A23-919E-4726-A362-42D1CE9A1D15
+name: Employees
+matching_priority: 1
+request:
+  host: "%"
+  path: "/api/employees"
+  port: 80
+  scheme: http
+  methods:
+  - POST
+  - PUT
+  - GET
+  - PATCH
+plugins:
+- name: proxy
+  is_enabled: true
+  settings:
+    host: www.google.com
+    path: "/"
+    port: 80
+    scheme: http
+    strip_api_path: false
+- name: auth
+  is_enabled: true
+  settings:
+    strategy: oauth
+    url_template: http://mithril:4000/admin/tokens/{access_token}/verify
+- name: acl
+  is_enabled: true
+  settings:
+    rules:
+    - path: ".*"
+      scopes:
+      - employee:write
+      methods:
+      - POST
+      - PUT
+    - path: ".*"
+      scopes:
+      - employee:read
+      methods:
+      - GET
+    - path: "/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/actions/deactivate"
+      scopes:
+      - employee:deactivate
+      methods:
+      - PATCH

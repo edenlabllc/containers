@@ -1,0 +1,58 @@
+version: '2'
+services:
+  mithril:
+    image: edenlabllc/mithril_api:1.259.3
+    depends_on:
+      - mithril_db
+    links:
+      - mithril_db
+    environment:
+      - ERLANG_COOKIE=5ytan2iIOAVJ84D2T8MWP87RgVo9PhvQ2jlcc3Zs/0fOod3AtUkTKjLBAKx+pJK2
+      - SECRET_KEY=TldpS1JadnNraFpZbU8xSjIxZUt2dz09
+      - DB_HOST=docker.for.mac.localhost
+      - DB_PORT=5432
+      - DB_NAME=mithril_local
+      - DB_USER=db
+      - DB_PASSWORD=
+
+  mithril_db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=mithril
+      - POSTGRES_USER=db
+
+  kong-migration:
+    image: edenlabllc/kong:0.0.19-2
+    links:
+      - kong-postgres
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-postgres
+    command: kong migrations up
+
+  kong:
+    image: edenlabllc/kong:0.0.19-2
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-postgres
+      - KONG_LOG_LEVEL=debug
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+    links:
+      - kong-postgres
+    depends_on:
+      - kong-migration
+    ports:
+      - "9000:8000"
+      - "9001:8001"
+
+  kong-postgres:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=kong
+      - POSTGRES_USER=kong
+    ports:
+      - "5433:5432"
