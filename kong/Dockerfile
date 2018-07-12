@@ -1,7 +1,7 @@
 FROM alpine:3.6
 
-ENV KONG_VERSION 0.12.1
-ENV KONG_SHA256 9f699e20e7d3aa6906b14d6b52cae9996995d595d646f9b10ce09c61d91a4257
+ENV KONG_VERSION 0.13.1
+ENV KONG_SHA256 caf119ce7a367b9d9cd1ace55c4b6a499ff3c4693f80ea25129ebf2da0373fcc
 
 RUN apk update \
 	&& apk add git \
@@ -17,10 +17,11 @@ RUN apk update \
 	&& cp -R /tmp/usr / \
 	&& rm -rf /tmp/usr \
 	&& apk del .build-deps \
-	&& rm -rf /var/cache/apk/*
+	&& rm -rf /var/cache/apk/* \
+	&& luarocks install kong-plugin-mithril \
+	&& luarocks install kong-plugin-stdout-log \
+	&& apk del git gcc musl-dev pcre-dev
 
-RUN luarocks install kong-plugin-mithril
-RUN luarocks install kong-plugin-stdout-log
 COPY custom_nginx.template /nginx.conf
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
