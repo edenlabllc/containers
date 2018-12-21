@@ -1,26 +1,25 @@
 FROM alpine:3.6
 
-ENV KONG_VERSION 0.13.1
-ENV KONG_SHA256 caf119ce7a367b9d9cd1ace55c4b6a499ff3c4693f80ea25129ebf2da0373fcc
+ENV KONG_VERSION 0.14.1
+ENV KONG_SHA256 e29937c5117ac2debcffe0d0016996dd5f0c516ef628f1edc029138715981387
 
 RUN apk update \
-	&& apk add git \
-	&& apk add musl-dev \
-	&& apk add gcc \
-	&& apk add pcre-dev \
-	&& apk add --virtual .build-deps wget tar ca-certificates \
-	&& apk add libgcc openssl pcre perl \
-	&& wget -O kong.tar.gz "https://bintray.com/kong/kong-community-edition-alpine-tar/download_file?file_path=kong-community-edition-$KONG_VERSION.apk.tar.gz" \
-	&& echo "$KONG_SHA256 *kong.tar.gz" | sha256sum -c - \
-	&& tar -xzf kong.tar.gz -C /tmp \
-	&& rm -f kong.tar.gz \
-	&& cp -R /tmp/usr / \
-	&& rm -rf /tmp/usr \
-	&& apk del .build-deps \
-	&& rm -rf /var/cache/apk/* \
-	&& luarocks install kong-plugin-mithril \
-	&& luarocks install kong-plugin-stdout-log \
-	&& apk del git gcc musl-dev pcre-dev
+    && apk add git \
+    && apk add musl-dev \
+    && apk add gcc \
+    && apk add pcre-dev \
+    && apk add --virtual .build-deps wget tar ca-certificates \
+    && apk add libgcc openssl pcre perl \
+    && wget -O kong.tar.gz "https://bintray.com/kong/kong-community-edition-alpine-tar/download_file?file_path=kong-community-edition-$KONG_VERSION.apk.tar.gz" \
+    && echo "$KONG_SHA256 *kong.tar.gz" | sha256sum -c - \
+    && tar -xzf kong.tar.gz -C /tmp \
+    && rm -f kong.tar.gz \
+    && cp -R /tmp/usr / \
+    && rm -rf /tmp/usr \
+    && apk del .build-deps \
+    && rm -rf /var/cache/apk/* \
+    && luarocks install kong-plugin-mithril \
+    && apk del git gcc musl-dev pcre-dev
 
 COPY custom_nginx.template /nginx.conf
 COPY docker-entrypoint.sh /docker-entrypoint.sh
@@ -30,4 +29,4 @@ EXPOSE 8000 8443 8001 8444
 
 STOPSIGNAL SIGTERM
 
-CMD ["/usr/local/openresty/nginx/sbin/nginx", "-c", "/usr/local/kong/nginx.conf", "-p", "/usr/local/kong/"]
+CMD ["kong", "docker-start"]

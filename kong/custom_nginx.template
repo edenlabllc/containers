@@ -22,7 +22,7 @@ http {
                          '"$request" $status $bytes_sent $http_user_agent '
                          '"$http_referer" '
                          'Consumer: $upstream_x_consumer_id, Client: $upstream_x_client_id '
-                         'Request headers: [{Authorization: [REDACTED]}, {Content-Type: $http_content_type}, {Api-Key: [REDACTED]}, {Accept-Encoding: $http_accept_encoding}] '
+                         'Request headers: [{Authorization: [REDACTED]}, {Content-Type: $http_content_type}, {Api-Key: [REDACTED]}, {Accept-Encoding: $http_accept_encoding}, {Mis-client-id: $upstream_mis_client_id}] '
                          'Response headers: [{Content-Type: $upstream_http_content_type}, {Request-Id: $upstream_http_x_request_id}]';
 
   client_max_body_size 0;
