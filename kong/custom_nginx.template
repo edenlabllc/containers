@@ -121,7 +121,7 @@ http {
             set $ctx_ref                     '';
             set $upstream_x_consumer_id      '';
             set $upstream_x_client_id        '';
-            set $upstream_mis_client_id      '';
+            set $upstream_x_mis_client_id    '';
             set $upstream_host               '';
             set $upstream_upgrade            '';
             set $upstream_connection         '';
