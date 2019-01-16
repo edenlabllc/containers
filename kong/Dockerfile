@@ -19,6 +19,7 @@ RUN apk update \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/* \
     && luarocks install kong-plugin-mithril \
+    && luarocks install kong-plugin-abac \
     && apk del git gcc musl-dev pcre-dev
 
 COPY custom_nginx.template /nginx.conf
