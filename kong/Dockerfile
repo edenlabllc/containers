@@ -18,7 +18,7 @@ RUN adduser -Su 1337 kong \
 	&& apk del .build-deps \
 	&& chown -R kong:0 /usr/local/kong \
 	&& chmod -R g=u /usr/local/kong \
-    && /usr/local/bin/luarocks install kong-plugin-mithril 0.3.3-1
+    && /usr/local/bin/luarocks install kong-plugin-mithril 0.3.5-1
 
 COPY custom_nginx.template /nginx.conf
 COPY docker-entrypoint.sh /docker-entrypoint.sh
