@@ -20,6 +20,7 @@ RUN adduser -Su 1337 kong \
 	&& chmod -R g=u /usr/local/kong \
     && /usr/local/bin/luarocks install kong-plugin-mithril 0.3.3-1
 
+COPY custom_nginx.template /nginx.conf
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
